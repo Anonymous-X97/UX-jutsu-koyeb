@@ -8,17 +8,6 @@
 #
 # All rights reserved.
 
-_changePythonVer() {
-    apt autoremove python3.9 -y
-    apt update -y && apt upgrade -y
-    apt-get update -y && apt-get upgrade -y
-}
-
-_installReq() {
-    pip install --no-cache-dir -U -r requirements.txt
-    echo 'Requirements are installed...'
-}
-
 _checkBashReq() {
     log "Checking Bash Commands ..."
     command -v jq &> /dev/null || quit "Required command : jq : could not be found !"
@@ -161,7 +150,7 @@ _setupPlugins() {
 }
 
 _checkUnoffPlugins() {
-    # _setupPlugins Xtra true $LOAD_UNOFFICIAL_PLUGINS https://github.com/ashwinstr/Userge-Plugins-Fork.git
+    # _setupPlugins Xtra true $LOAD_UNOFFICIAL_PLUGINS
     echo 'Kakashi removed XTRA plugins repo.'
 }
 
@@ -174,8 +163,6 @@ _flushMessages() {
 }
 
 assertPrerequisites() {
-    _changePythonVer
-    _installReq
     _checkBashReq
     _checkPythonVersion
     _checkConfigFile
