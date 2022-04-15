@@ -57,7 +57,7 @@ async def video_note(message: Message):
             f"""ffmpeg -loop 1 -i {thumb_loc} -i {audio_loc} -c:v libx264 -tune stillimage -c:a aac -b:a 192k -vf \"scale=\'iw-mod (iw,2)\':\'ih-mod(ih,2)\',format=yuv420p\" -shortest -movflags +faststart {_vid_path}"""
         )
     if os.path.exists(_vid_path):
-        await userge.send_video_note(message.chat.id, _vid_path)
+        await userge.send_video_note(message.chat.id, _vid_path, lenght=25)
     await message.delete()
     rmtree(_cache_path, ignore_errors=True)
 
