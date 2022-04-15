@@ -94,7 +94,7 @@ async def crop_vid(input_vid: str, final_path: str):
         if correct_aspect:
             crop_by = min(width_, height_)
             await runcmd(
-                f"""ffmpeg -i \'{input_vid}\' -filter:v \"crop=180:180\" {final_path}"""
+                f"""ffmpeg -i \'{input_vid}\' -filter:v \"crop=180:180:0:0:keep_aspect=1\" {final_path}"""
             )
             os.remove(input_vid)
         else:
