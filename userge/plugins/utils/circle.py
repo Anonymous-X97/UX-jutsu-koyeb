@@ -94,7 +94,13 @@ async def crop_vid(input_vid: str, final_path: str):
         if correct_aspect:
             crop_by = min(width_, height_)
             await runcmd(
-                f"""ffmpeg -i \'{input_vid}\' -filter:v \"crop={crop_by}:{crop_by}\" {final_path}"""
+                f"""ffmpeg -i \'{input_vid}\' -filter_complex "[1]trim=end_frame=1,
+  geq='st(3,pow(X-(W/2),2)+pow(Y-(H/2),2));if(lte(ld(3),pow(min(W/2,H/2),2)),255,0)':128:128,
+  loop=-1:1,setpts=N/FRAME_RATE/TB[mask];
+  [1][mask]alphamerge[cutout];
+  [0][cutout]overlay=x=W-w:y=0[v];
+  [0][1]amix=2[a]"
+ -map "[v]" -map "[a]" {final_path}"""
             )
             os.remove(input_vid)
         else:
